@@ -6,11 +6,11 @@
             </Pattern>
         </layout>
     </appender>
-    <root level="debug">
+    <root level="TRACE">
         <appender-ref ref="STDOUT"/>
     </root>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>log.log</file>
+        <file>test.log</file>
         <append>true</append>
         <!-- set immediateFlush to false for much higher logging throughput -->
         <immediateFlush>true</immediateFlush>
