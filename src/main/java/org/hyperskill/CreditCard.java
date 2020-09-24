@@ -30,8 +30,8 @@ public class CreditCard {
         this.pin = pin;
     }
 
-    public CreditCard createCreditCard(){
-        return this;
+    public static CreditCard createCreditCard(){
+        return new CreditCard(createCreditCardNumber(), createPinNumber());
     }
 
     protected static String createCreditCardNumber(){
