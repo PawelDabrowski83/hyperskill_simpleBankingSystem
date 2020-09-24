@@ -14,6 +14,14 @@ public class CreditCard {
     private final String creditCardNumber;
     private String pin;
 
+    public String getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
     private CreditCard(String creditCardNumber, String pin) {
         logger.info("Creating CreditCard instance with creditCardNumber: {} and pin: {}", creditCardNumber, pin);
         this.creditCardNumber = creditCardNumber;
