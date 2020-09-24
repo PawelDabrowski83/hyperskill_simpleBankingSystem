@@ -11,15 +11,15 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AccountTest {
+public class CreditCardTest {
 
-    @DisplayName("should validateAccountNumber() work")
+    @DisplayName("should validateCreditCardNumber() work")
     @ParameterizedTest
-    @MethodSource("validateAccountNumberArgumentsProvider")
-    void validateAccountNumber(boolean expected, String given){
-        assertEquals(expected, Account.validateAccountNumber(given));
+    @MethodSource("validateCreditCardNumberArgumentsProvider")
+    void validateCreditCardNumber(boolean expected, String given){
+        assertEquals(expected, CreditCard.validateCreditCardNumber(given));
     }
-    private static Stream<Arguments> validateAccountNumberArgumentsProvider(){
+    private static Stream<Arguments> validateCreditCardNumberArgumentsProvider(){
         return Stream.of(
                 Arguments.of(false, ""),
                 Arguments.of(false, "15"),
@@ -36,16 +36,16 @@ public class AccountTest {
     }
 
     @Test
-    public void shouldCreateAccountNumberReturnValidAccountNumber(){
+    public void shouldCreateCreditCardNumberReturnValidCreditCardNumber(){
         // given
-        final String requiredPrefix = Account.BIN_PREFIX;
-        final int requiredLength = Account.ACCOUNT_NUMBER_LENGTH;
+        final String requiredPrefix = CreditCard.BIN_PREFIX;
+        final int requiredLength = CreditCard.CREDIT_CARD_NUMBER_LENGTH;
 
         // when
         String[] creditCardNumbers = new String[100];
         int i = 0;
         while (i < creditCardNumbers.length){
-            creditCardNumbers[i] = Account.createAccountNumber();
+            creditCardNumbers[i] = CreditCard.createCreditCardNumber();
             i++;
         }
 
@@ -53,7 +53,7 @@ public class AccountTest {
         for (String actualCreditCardNumber : creditCardNumbers) {
             assertEquals(requiredPrefix, actualCreditCardNumber.substring(0,6));
             assertEquals(requiredLength, actualCreditCardNumber.length());
-            assertTrue(Account.ACCOUNT_NUMBER_FORMULA.matcher(actualCreditCardNumber).matches());
+            assertTrue(CreditCard.CREDIT_CARD_NUMBER_FORMULA.matcher(actualCreditCardNumber).matches());
         }
 
 
