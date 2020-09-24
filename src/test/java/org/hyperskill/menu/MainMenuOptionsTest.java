@@ -1,6 +1,5 @@
 package org.hyperskill.menu;
 
-import org.hyperskill.menu.MainMenuOptions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -22,7 +21,7 @@ public class MainMenuOptionsTest {
     }
     private static Stream<Arguments> getByValueArgumentsProvider(){
         return Stream.of(
-                Arguments.of(CREATE_ACCOUNT, "1"),
+                Arguments.of(CREATE_CREDIT_CARD, "1"),
                 Arguments.of(LOGIN, "2"),
                 Arguments.of(EXIT, "0")
         );

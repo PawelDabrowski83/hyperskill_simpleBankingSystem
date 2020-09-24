@@ -1,5 +1,6 @@
 package org.hyperskill;
 
+import org.hyperskill.actions.CreditCardCreation;
 import org.hyperskill.actions.QuitConsole;
 import org.hyperskill.menu.AccountMenuOptions;
 import org.hyperskill.menu.MainMenuOptions;
@@ -11,9 +12,6 @@ import static org.hyperskill.menu.MainMenuOptions.getByValue;
 
 public class UserConsole {
     protected static final String CONSOLE_MENU = "1. Create an account\n2. Log into account\n0. Exit";
-    protected static final String MENU_CARD_CREATED = "Your card has been created";
-    protected static final String MENU_CARD_NUMBER = "Your card number:";
-    protected static final String MENU_PIN_NUMBER = "Your card PIN:";
     protected static final String MENU_ENTER_CARD_NUMBER = "Enter your card number:";
     protected static final String MENU_ENTER_PIN = "Enter your PIN:";
     protected static final String MENU_WRONG_INPUT = "Wrong card number or PIN!";
@@ -23,13 +21,13 @@ public class UserConsole {
     protected static final String MENU_BALANCE = "Balance: %d";
 
 
-    protected static void displayMainMenu(Scanner scanner){
+    public static void displayMainMenu(Scanner scanner){
         String command = "";
         while (!EXIT.getValue().equals(command)){
             MainMenuOptions option = getByValue(command);
             switch (option){
                 case LOGIN -> manageUser(scanner);
-                case CREATE_ACCOUNT -> createAccount(scanner);
+                case CREATE_CREDIT_CARD -> CreditCardCreation.createCreditCard(scanner);
             }
             System.out.println(CONSOLE_MENU);
             command = scanner.nextLine();
@@ -54,9 +52,7 @@ public class UserConsole {
 
     }
 
-    protected static void createAccount(Scanner scanner){
-        System.out.println("create account");
-    }
+
 
     protected static void checkBalance(Scanner scanner){
         System.out.println("check balance");
