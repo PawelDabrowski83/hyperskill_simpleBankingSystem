@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public enum AccountMenuOptions {
 
-    DEFAULT("0"), BALANCE("1"), LOGOUT("2"), EXIT("3");
+    DEFAULT("-1"), BALANCE("1"), LOGOUT("2"), EXIT("0");
 
     private final String value;
     private static final Map<String, AccountMenuOptions> lookUp = Arrays.stream(values())

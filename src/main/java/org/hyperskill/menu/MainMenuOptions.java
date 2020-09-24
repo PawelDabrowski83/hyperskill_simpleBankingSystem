@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum MainMenuOptions {
-    DEFAULT("0"), CREATE_ACCOUNT("1"), LOGIN("2"), EXIT("3");
+    DEFAULT("-1"), CREATE_ACCOUNT("1"), LOGIN("2"), EXIT("0");
 
     private final String value;
     private static final Map<String, MainMenuOptions> lookUp = Arrays.stream(values())

@@ -1,6 +1,5 @@
 package org.hyperskill.menu;
 
-import org.hyperskill.menu.AccountMenuOptions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -24,13 +23,13 @@ public class AccountMenuOptionsTest {
         return Stream.of(
                 Arguments.of(BALANCE, "1"),
                 Arguments.of(LOGOUT, "2"),
-                Arguments.of(EXIT, "3")
+                Arguments.of(EXIT, "0")
         );
     }
 
     @DisplayName("should getByValue() given invalid values returns DEFAULT")
     @ParameterizedTest
-    @ValueSource(strings = {"0", "-3", "-9_000_000_000", "0000000000;", "3_000_000", "33"})
+    @ValueSource(strings = {"3", "-3", "-9_000_000_000", "0000000000;", "3_000_000", "33"})
     void getByValueInvalidArgumentsReturnDefault(String given){
         assertEquals(DEFAULT, AccountMenuOptions.getByValue(given));
     }

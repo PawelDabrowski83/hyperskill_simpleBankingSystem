@@ -24,13 +24,13 @@ public class MainMenuOptionsTest {
         return Stream.of(
                 Arguments.of(CREATE_ACCOUNT, "1"),
                 Arguments.of(LOGIN, "2"),
-                Arguments.of(EXIT, "3")
+                Arguments.of(EXIT, "0")
         );
     }
 
     @DisplayName("should getByValue() given invalid values returns DEFAULT")
     @ParameterizedTest
-    @ValueSource(strings = {"0", "-3", "-3_000_000", "3_000_000", "33", "9999999999"})
+    @ValueSource(strings = {"-1", "3", "-3", "-3_000_000", "3_000_000", "33", "9999999999"})
     void getByValueInvalidArgumentsReturnDefault(String given){
         assertEquals(DEFAULT, MainMenuOptions.getByValue(given));
     }
