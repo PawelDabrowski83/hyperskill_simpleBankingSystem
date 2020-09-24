@@ -24,6 +24,12 @@ public class Account {
         return this;
     }
 
+    protected static String createAccountNumber(){
+        String accountNumber = BIN_PREFIX + BankUtils.createRandomNumbers(10);
+        logger.debug("Creating account number: {}", accountNumber);
+        return accountNumber;
+    }
+
     protected static boolean validateAccountNumber(String accountNumber){
         logger.debug("Validating account number {}", accountNumber);
         if (accountNumber == null || accountNumber.isBlank()){
