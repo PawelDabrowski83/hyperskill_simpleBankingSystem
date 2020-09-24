@@ -1,5 +1,10 @@
 package org.hyperskill;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 public class UserConsole {
     protected static final String CONSOLE_MENU = "1. Create an account\n2. Log into account\n0. Exit";
     protected static final String MENU_CARD_CREATED = "Your card has been created";
@@ -14,3 +19,5 @@ public class UserConsole {
     protected static final String MENU_BALANCE = "Balance: %d";
     protected static final String MENU_QUIT = "Bye!";
 }
+
+
