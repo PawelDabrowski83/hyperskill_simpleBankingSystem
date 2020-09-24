@@ -9,7 +9,9 @@ public class CreditCard {
 
     protected static final String BIN_PREFIX = "400000";
     protected static final int CREDIT_CARD_NUMBER_LENGTH = 16;
+    protected static final int PIN_NUMBER_LENGTH = 4;
     protected static Pattern CREDIT_CARD_NUMBER_FORMULA = Pattern.compile("^400000\\d{10}$");
+    protected static Pattern PIN_NUMBER_FORMULA = Pattern.compile("^\\d{4}$");
 
     private final String creditCardNumber;
     private String pin;
@@ -33,9 +35,15 @@ public class CreditCard {
     }
 
     protected static String createCreditCardNumber(){
-        String creditCardNumber = BIN_PREFIX + BankUtils.createRandomNumbers(10);
+        String creditCardNumber = BIN_PREFIX + BankUtils.createRandomNumbers(CREDIT_CARD_NUMBER_LENGTH - BIN_PREFIX.length());
         logger.debug("Creating credit card number: {}", creditCardNumber);
         return creditCardNumber;
+    }
+
+    protected static String createPinNumber(){
+        String pinNumber = BankUtils.createRandomNumbers(PIN_NUMBER_LENGTH);
+        logger.debug("Creating pin number: {}", pinNumber);
+        return pinNumber;
     }
 
     protected static boolean validateCreditCardNumber(String creditCardNumber){
@@ -47,5 +55,12 @@ public class CreditCard {
         boolean result = CREDIT_CARD_NUMBER_FORMULA.matcher(creditCardNumber).matches();
         logger.debug("Validation complete: {}", result);
         return result;
+    }
+
+    protected static boolean validatePinNumber(String pinNumber){
+        if (pinNumber == null || pinNumber.isBlank()){
+            return false;
+        }
+        return PIN_NUMBER_FORMULA.matcher(pinNumber).matches();
     }
 }
