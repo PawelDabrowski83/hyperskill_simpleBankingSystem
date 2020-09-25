@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreditCardCreationTest {
 
@@ -25,5 +26,9 @@ public class CreditCardCreationTest {
         // then
         List<CreditCard> actualRegistry = new ArrayList<>(CreditCard.registeredCreditCards);
         assertEquals(controlSize + numberOfCardsToCreate, actualRegistry.size());
+        for (CreditCard creditCard : actualRegistry){
+            assertTrue(CreditCard.validateCreditCardNumber(creditCard.getCreditCardNumber()));
+            assertTrue(CreditCard.validatePinNumber(creditCard.getPin()));
+        }
     }
 }

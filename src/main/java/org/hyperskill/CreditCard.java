@@ -42,14 +42,14 @@ public class CreditCard {
         return BankUtils.createRandomNumbers(PIN_NUMBER_LENGTH);
     }
 
-    protected static boolean validateCreditCardNumber(String creditCardNumber){
+    public static boolean validateCreditCardNumber(String creditCardNumber){
         if (creditCardNumber == null || creditCardNumber.isBlank()){
             return false;
         }
         return CREDIT_CARD_NUMBER_FORMULA.matcher(creditCardNumber).matches();
     }
 
-    protected static boolean validatePinNumber(String pinNumber){
+    public static boolean validatePinNumber(String pinNumber){
         if (pinNumber == null || pinNumber.isBlank()){
             return false;
         }
