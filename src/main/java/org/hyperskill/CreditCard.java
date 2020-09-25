@@ -16,6 +16,7 @@ public class CreditCard {
     public static final List<CreditCard> registeredCreditCards = new ArrayList<>();
     private final String creditCardNumber;
     private final String pin;
+    private int balance;
 
     public String getCreditCardNumber() {
         return creditCardNumber;
@@ -25,9 +26,14 @@ public class CreditCard {
         return pin;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
     private CreditCard(String creditCardNumber, String pin) {
         this.creditCardNumber = creditCardNumber;
         this.pin = pin;
+        this.balance = 0;
     }
 
     public static CreditCard createCreditCard(){
