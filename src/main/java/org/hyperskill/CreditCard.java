@@ -1,6 +1,8 @@
 package org.hyperskill;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class CreditCard {
@@ -11,8 +13,10 @@ public class CreditCard {
     protected static Pattern CREDIT_CARD_NUMBER_FORMULA = Pattern.compile("^400000\\d{10}$");
     protected static Pattern PIN_NUMBER_FORMULA = Pattern.compile("^\\d{4}$");
 
+    public static final List<CreditCard> registeredCreditCards = new ArrayList<>();
     private final String creditCardNumber;
     private final String pin;
+    private int balance;
 
     public String getCreditCardNumber() {
         return creditCardNumber;
@@ -22,9 +26,14 @@ public class CreditCard {
         return pin;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
     private CreditCard(String creditCardNumber, String pin) {
         this.creditCardNumber = creditCardNumber;
         this.pin = pin;
+        this.balance = 0;
     }
 
     public static CreditCard createCreditCard(){
@@ -39,14 +48,14 @@ public class CreditCard {
         return BankUtils.createRandomNumbers(PIN_NUMBER_LENGTH);
     }
 
-    protected static boolean validateCreditCardNumber(String creditCardNumber){
+    public static boolean validateCreditCardNumber(String creditCardNumber){
         if (creditCardNumber == null || creditCardNumber.isBlank()){
             return false;
         }
         return CREDIT_CARD_NUMBER_FORMULA.matcher(creditCardNumber).matches();
     }
 
-    protected static boolean validatePinNumber(String pinNumber){
+    public static boolean validatePinNumber(String pinNumber){
         if (pinNumber == null || pinNumber.isBlank()){
             return false;
         }
