@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import static org.hyperskill.BankUtils.createRandomNumbers;
+
 public class CreditCard {
     public static final CreditCard NULL_CARD = new CreditCard(null, null);
 
@@ -57,11 +59,13 @@ public class CreditCard {
     }
 
     protected static String createCreditCardNumber(){
-        return BIN_PREFIX + BankUtils.createRandomNumbers(CREDIT_CARD_NUMBER_LENGTH - BIN_PREFIX.length());
+        String numberWithoutLuhn = BIN_PREFIX +
+                createRandomNumbers(CREDIT_CARD_NUMBER_LENGTH - BIN_PREFIX.length() - 1);
+        return BankUtils.appendLuhnDigit(numberWithoutLuhn);
     }
 
     protected static String createPinNumber(){
-        return BankUtils.createRandomNumbers(PIN_NUMBER_LENGTH);
+        return createRandomNumbers(PIN_NUMBER_LENGTH);
     }
 
     public static boolean validateCreditCardNumber(String creditCardNumber){

@@ -49,6 +49,7 @@ public class CreditCardTest {
 
         // then
         for (String actualCreditCardNumber : creditCardNumbers) {
+            System.out.println(actualCreditCardNumber);
             assertEquals(requiredPrefix, actualCreditCardNumber.substring(0,6));
             assertEquals(requiredLength, actualCreditCardNumber.length());
             assertTrue(CreditCard.CREDIT_CARD_NUMBER_FORMULA.matcher(actualCreditCardNumber).matches());
