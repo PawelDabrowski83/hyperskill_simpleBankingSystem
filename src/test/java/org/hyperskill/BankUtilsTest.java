@@ -69,4 +69,24 @@ public class BankUtilsTest {
         );
     }
 
+    @DisplayName("should checkLuhnNumber() verify if number was given correctly")
+    @ParameterizedTest
+    @MethodSource("checkLuhnNumberArgumentsProvider")
+    void checkLuhnNumber(boolean expected, String number){
+        assertEquals(expected, BankUtils.checkLuhnNumber(number));
+    }
+    private static Stream<Arguments> checkLuhnNumberArgumentsProvider(){
+        return Stream.of(
+                Arguments.of(true, "10000016"),
+                Arguments.of(true, "4000008449433403"),
+                Arguments.of(true, "1008"),
+                Arguments.of(true, "12346"),
+                Arguments.of(false, ""),
+                Arguments.of(false, "12345"),
+                Arguments.of(false, "1001"),
+                Arguments.of(false, "3000008449433403")
+        );
+    }
+
+
 }

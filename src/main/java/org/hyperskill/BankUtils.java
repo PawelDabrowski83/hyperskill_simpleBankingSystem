@@ -50,4 +50,8 @@ public class BankUtils {
         int controlDigit = 10 - (checkSum % 10);
         return number + controlDigit;
     }
+
+    public static boolean checkLuhnNumber(String number){
+        return false;
+    }
 }
