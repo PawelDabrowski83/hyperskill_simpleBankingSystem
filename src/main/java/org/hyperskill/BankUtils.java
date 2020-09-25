@@ -75,6 +75,19 @@ public class BankUtils {
     }
 
     protected static int[] convertToIntArray(String number){
-        return new int[0];
+        if (number == null || number.isBlank() || !ONLY_DIGITS.matcher(number).matches()){
+            return new int[0];
+        }
+        int[] digits = new int[number.length()];
+        for (int i = 0; i < digits.length; i++){
+            int currentDigit = -1;
+            try {
+                currentDigit = Integer.parseInt(String.valueOf(number.charAt(i)));
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+            digits[i] = currentDigit;
+        }
+        return digits;
     }
 }
