@@ -1,9 +1,13 @@
 package org.hyperskill;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,4 +51,22 @@ public class BankUtilsTest {
             assertThrows(IllegalArgumentException.class, () -> BankUtils.createRandomNumbers(targetLength));
         }
     }
+
+    @DisplayName("should appendLuhnDigit return number with added control digit from Luhn algorithm")
+    @ParameterizedTest
+    @MethodSource("appendLuhnDigitArgumentsProvider")
+    void appendLuhnDigit(String expected, String given){
+        assertEquals(expected, BankUtils.appendLuhnDigit(given));
+    }
+    private static Stream<Arguments> appendLuhnDigitArgumentsProvider(){
+        return Stream.of(
+                Arguments.of("4000008449433403", "400000844943340"),
+                Arguments.of("10000000000008", "1000000000000"),
+                Arguments.of("1008", "100"),
+                Arguments.of("10000016", "1000001"),
+                Arguments.of("", ""),
+                Arguments.of("12346", "1234")
+        );
+    }
+
 }
