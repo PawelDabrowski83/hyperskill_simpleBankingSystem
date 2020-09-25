@@ -65,7 +65,8 @@ public class BankUtilsTest {
                 Arguments.of("1008", "100"),
                 Arguments.of("10000016", "1000001"),
                 Arguments.of("", ""),
-                Arguments.of("12346", "1234")
+                Arguments.of("12346", "1234"),
+                Arguments.of("4000000469841730", "400000046984173")
         );
     }
 

@@ -48,6 +48,9 @@ public class BankUtils {
             checkSum += digit;
         }
         int controlDigit = 10 - (checkSum % 10);
+        if (controlDigit == 10){
+            controlDigit = 0;
+        }
         return number + controlDigit;
     }
 
