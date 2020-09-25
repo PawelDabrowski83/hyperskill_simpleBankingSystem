@@ -27,7 +27,7 @@ public class UserConsole {
             MainMenuOptions option = getByValue(command);
             switch (option){
                 case LOGIN -> manageUser(scanner);
-                case CREATE_CREDIT_CARD -> CreditCardCreation.createCreditCard(scanner);
+                case CREATE_CREDIT_CARD -> CreditCardCreation.createCreditCard();
             }
             System.out.println(CONSOLE_MENU);
             command = scanner.nextLine();

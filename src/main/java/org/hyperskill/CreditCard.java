@@ -1,6 +1,8 @@
 package org.hyperskill;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class CreditCard {
@@ -11,6 +13,7 @@ public class CreditCard {
     protected static Pattern CREDIT_CARD_NUMBER_FORMULA = Pattern.compile("^400000\\d{10}$");
     protected static Pattern PIN_NUMBER_FORMULA = Pattern.compile("^\\d{4}$");
 
+    public static final List<CreditCard> registeredCreditCards = new ArrayList<>();
     private final String creditCardNumber;
     private final String pin;
 
