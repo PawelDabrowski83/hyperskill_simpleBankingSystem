@@ -51,6 +51,11 @@ public class BankUtils {
         return number + controlDigit;
     }
 
+    /**
+     * check if last digit of given string is valid Luhn control number
+     * @param number number as string
+     * @return true if number is valid
+     */
     public static boolean checkLuhnNumber(String number){
         if (number == null || number.isBlank() || !ONLY_DIGITS.matcher(number).matches()){
             return false;
