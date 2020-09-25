@@ -55,23 +55,20 @@ public class BankUtils {
         if (number == null || number.isBlank() || !ONLY_DIGITS.matcher(number).matches()){
             return false;
         }
-        int expectedNumber = -1;
-        try {
-            expectedNumber = Integer.parseInt(String.valueOf(number.charAt(number.length() - 1)));
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        }
-        int[] digits = new int[number.length() - 1];
+        int expectedNumber = BankUtils.convertToInt(number.charAt(number.length() - 1));
+        int[] digits = BankUtils.convertToIntArray(number.substring(0, number.length() - 1));
+        int sum = 0;
         for (int i = 0; i < digits.length; i++){
-            int actualDigit = -1;
-            try {
-                actualDigit = Integer.parseInt(String.valueOf(number.charAt(i)));
-            } catch (NumberFormatException e){
-                e.printStackTrace();
+            int currentDigit = digits[i];
+            if (i % 2 == 0){
+                currentDigit *= 2;
+                if (currentDigit > 9){
+                    currentDigit -= 9;
+                }
             }
-            digits[i] = actualDigit;
+            sum += currentDigit;
         }
-        return false;
+        return (sum + expectedNumber) % 10 == 0;
     }
 
     protected static int[] convertToIntArray(String number){
@@ -80,14 +77,18 @@ public class BankUtils {
         }
         int[] digits = new int[number.length()];
         for (int i = 0; i < digits.length; i++){
-            int currentDigit = -1;
-            try {
-                currentDigit = Integer.parseInt(String.valueOf(number.charAt(i)));
-            } catch (NumberFormatException e){
-                e.printStackTrace();
-            }
-            digits[i] = currentDigit;
+            digits[i] = convertToInt(number.charAt(i));
         }
         return digits;
+    }
+
+    protected static int convertToInt(char c){
+        int number = -1;
+        try {
+            number = Integer.parseInt(String.valueOf(c));
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        return number;
     }
 }
