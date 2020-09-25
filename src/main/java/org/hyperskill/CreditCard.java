@@ -3,9 +3,11 @@ package org.hyperskill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class CreditCard {
+    public static final CreditCard NULL_CARD = new CreditCard(null, null);
 
     protected static final String BIN_PREFIX = "400000";
     protected static final int CREDIT_CARD_NUMBER_LENGTH = 16;
@@ -40,6 +42,20 @@ public class CreditCard {
         return new CreditCard(createCreditCardNumber(), createPinNumber());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreditCard that = (CreditCard) o;
+        return Objects.equals(creditCardNumber, that.creditCardNumber) &&
+                Objects.equals(pin, that.pin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(creditCardNumber, pin);
+    }
+
     protected static String createCreditCardNumber(){
         return BIN_PREFIX + BankUtils.createRandomNumbers(CREDIT_CARD_NUMBER_LENGTH - BIN_PREFIX.length());
     }
@@ -60,5 +76,16 @@ public class CreditCard {
             return false;
         }
         return PIN_NUMBER_FORMULA.matcher(pinNumber).matches();
+    }
+
+    public static CreditCard getCardIfExist(String number, String pin){
+        if (registeredCreditCards.isEmpty()){
+            return NULL_CARD;
+        }
+        CreditCard searchedCard = new CreditCard(number, pin);
+        if (registeredCreditCards.contains(searchedCard)){
+            return registeredCreditCards.get(registeredCreditCards.indexOf(searchedCard));
+        }
+        return NULL_CARD;
     }
 }

@@ -1,6 +1,5 @@
 package org.hyperskill;
 
-import org.hyperskill.actions.CreditCardCreation;
 import org.hyperskill.actions.QuitConsole;
 import org.hyperskill.menu.AccountMenuOptions;
 import org.hyperskill.menu.MainMenuOptions;
@@ -18,8 +17,22 @@ public class UserConsole {
     protected static final String MENU_LOGIN_SUCCESSFUL = "You have successfully logged in!";
     protected static final String MENU_USER_ACCOUNT = "1. Balance\n2. Log out\n0. Exit";
     protected static final String MENU_LOGOUT_EXIT = "You have successfully logged out!";
-    protected static final String MENU_BALANCE = "Balance: %d";
 
+    protected static final String MENU_BALANCE = "Balance: %d";
+    protected static final String MENU_CARD_CREATED = "Your card has been created";
+    protected static final String MENU_CARD_NUMBER = "Your card number:";
+    protected static final String MENU_PIN_NUMBER = "Your card PIN:";
+
+    public static CreditCard createCreditCard(){
+        System.out.println(MENU_CARD_CREATED);
+        System.out.println(MENU_CARD_NUMBER);
+        CreditCard actualCard = CreditCard.createCreditCard();
+        CreditCard.registeredCreditCards.add(actualCard);
+        System.out.println(actualCard.getCreditCardNumber());
+        System.out.println(MENU_PIN_NUMBER);
+        System.out.println(actualCard.getPin());
+        return actualCard;
+    }
 
     public static void displayMainMenu(Scanner scanner){
         String command = "";
@@ -27,7 +40,7 @@ public class UserConsole {
             MainMenuOptions option = getByValue(command);
             switch (option){
                 case LOGIN -> manageUser(scanner);
-                case CREATE_CREDIT_CARD -> CreditCardCreation.createCreditCard();
+                case CREATE_CREDIT_CARD -> createCreditCard();
             }
             System.out.println(CONSOLE_MENU);
             command = scanner.nextLine();
@@ -35,14 +48,31 @@ public class UserConsole {
         QuitConsole.exit();
     }
 
+    public static CreditCard attemptLogin(Scanner scanner){
+        System.out.println(MENU_ENTER_CARD_NUMBER);
+        String inputCardNumber = scanner.nextLine();
+        System.out.println(MENU_ENTER_PIN);
+        String inputPin = scanner.nextLine();
+        return CreditCard.getCardIfExist(inputCardNumber, inputPin);
+    }
 
+    public static boolean isLoginSuccessful(CreditCard card){
+        return !CreditCard.NULL_CARD.equals(card);
+    }
 
     protected static void manageUser(Scanner scanner){
+        CreditCard currentCard = attemptLogin(scanner);
+        if (isLoginSuccessful(currentCard)){
+            System.out.println(MENU_LOGIN_SUCCESSFUL);
+        } else {
+            System.out.println(MENU_WRONG_INPUT);
+            return;
+        }
         String command = "";
         while (!EXIT.getValue().equals(command)){
             AccountMenuOptions option = AccountMenuOptions.getByValue(command);
             switch (option){
-                case BALANCE -> checkBalance(scanner);
+                case BALANCE -> checkBalance(currentCard);
                 case LOGOUT -> logout(scanner);
             }
             System.out.println(MENU_USER_ACCOUNT);
@@ -52,14 +82,15 @@ public class UserConsole {
 
     }
 
-
-
-    protected static void checkBalance(Scanner scanner){
-        System.out.println("check balance");
+    protected static void checkBalance(CreditCard card){
+        int currentBalance = card.getBalance();
+        System.out.printf(MENU_BALANCE, currentBalance);
+        System.out.println();
     }
 
     protected static void logout(Scanner scanner){
-        System.out.println("logout");
+        System.out.println(MENU_LOGOUT_EXIT);
+        displayMainMenu(scanner);
     }
 }
 
