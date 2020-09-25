@@ -52,6 +52,29 @@ public class BankUtils {
     }
 
     public static boolean checkLuhnNumber(String number){
+        if (number == null || number.isBlank() || !ONLY_DIGITS.matcher(number).matches()){
+            return false;
+        }
+        int expectedNumber = -1;
+        try {
+            expectedNumber = Integer.parseInt(String.valueOf(number.charAt(number.length() - 1)));
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        int[] digits = new int[number.length() - 1];
+        for (int i = 0; i < digits.length; i++){
+            int actualDigit = -1;
+            try {
+                actualDigit = Integer.parseInt(String.valueOf(number.charAt(i)));
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+            digits[i] = actualDigit;
+        }
         return false;
+    }
+
+    protected static int[] convertToIntArray(String number){
+        return new int[0];
     }
 }

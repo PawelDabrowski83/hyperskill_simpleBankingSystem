@@ -88,5 +88,21 @@ public class BankUtilsTest {
         );
     }
 
+    @DisplayName("should convertToIntArray() work")
+    @ParameterizedTest
+    @MethodSource("convertToIntArrayArgumentsProvider")
+    void convertToIntArray(int[] expected, String given){
+        assertArrayEquals(expected, BankUtils.convertToIntArray(given));
+    }
+    private static Stream<Arguments> convertToIntArrayArgumentsProvider(){
+        return Stream.of(
+                Arguments.of(new int[]{1, 0, 0, 3, 7}, "10037"),
+                Arguments.of(new int[0], ""),
+                Arguments.of(new int[]{9, 9, 8, 8, 0, 3, 1, 0, 0, 1, 4}, "99880310014"),
+                Arguments.of(new int[0], "kot"),
+                Arguments.of(new int[0], "-17")
+        );
+    }
+
 
 }
