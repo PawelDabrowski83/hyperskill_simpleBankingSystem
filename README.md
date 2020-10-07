@@ -8,4 +8,5 @@ Stack:
 <ul>
 <li>Java14</li>
 <li>JUnit5</li>
-<li>slf4j</li></ul>
+<li>slf4j</li>
+<li>SQLite</li></ul>

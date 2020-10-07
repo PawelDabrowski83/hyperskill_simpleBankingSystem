@@ -34,10 +34,16 @@ public class CreditCard {
         return balance;
     }
 
-    private CreditCard(String creditCardNumber, String pin) {
+    protected CreditCard(String creditCardNumber, String pin) {
         this.creditCardNumber = creditCardNumber;
         this.pin = pin;
         this.balance = 0;
+    }
+
+    protected CreditCard(String creditCardNumber, String pin, int balance){
+        this.creditCardNumber = creditCardNumber;
+        this.pin = pin;
+        this.balance = balance;
     }
 
     public static CreditCard createCreditCard(){
@@ -49,8 +55,8 @@ public class CreditCard {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CreditCard that = (CreditCard) o;
-        return Objects.equals(creditCardNumber, that.creditCardNumber) &&
-                Objects.equals(pin, that.pin);
+        return creditCardNumber.equals(that.creditCardNumber) &&
+                pin.equals(that.pin);
     }
 
     @Override
@@ -92,4 +98,6 @@ public class CreditCard {
         }
         return NULL_CARD;
     }
+
+
 }
