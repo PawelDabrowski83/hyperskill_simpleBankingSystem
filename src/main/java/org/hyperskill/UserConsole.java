@@ -34,6 +34,7 @@ public class UserConsole {
     protected static final String MENU_TRANSFER_INCOME_ADDED = "Income was added!";
     protected static final String MENU_TRANSFER_SUCCESS = "Success!";
     protected static final String MENU_ACCOUNT_CLOSED = "The account has been closed!";
+    protected static final String MENU_ADD_INCOME = "Enter income:";
 
     public static CreditCard createCreditCard(){
         System.out.println(MENU_CARD_CREATED);
@@ -86,6 +87,7 @@ public class UserConsole {
             switch (option){
                 case BALANCE -> checkBalance(currentCard);
                 case LOGOUT -> logout(scanner);
+                case ADD_INCOME -> addIncome(scanner, currentCard);
             }
             System.out.println(MENU_USER_ACCOUNT);
             command = scanner.nextLine();
@@ -104,6 +106,16 @@ public class UserConsole {
         System.out.println(MENU_LOGOUT_EXIT);
         displayMainMenu(scanner);
     }
+
+    protected static void addIncome(Scanner scanner, CreditCard card){
+        System.out.println(MENU_ADD_INCOME);
+        int amount = scanner.nextInt();
+        if (card.addIncome(amount)){
+            Main.creditCardDao.updateCard(card);
+            System.out.println(MENU_TRANSFER_INCOME_ADDED);
+        }
+    }
+
 }
 
 
