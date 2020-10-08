@@ -27,7 +27,7 @@ public class UserConsole {
         System.out.println(MENU_CARD_CREATED);
         System.out.println(MENU_CARD_NUMBER);
         CreditCard actualCard = CreditCard.createCreditCard();
-        CreditCard.registeredCreditCards.add(actualCard);
+        Main.creditCardDao.createCard(actualCard);
         System.out.println(actualCard.getCreditCardNumber());
         System.out.println(MENU_PIN_NUMBER);
         System.out.println(actualCard.getPin());
@@ -53,7 +53,7 @@ public class UserConsole {
         String inputCardNumber = scanner.nextLine();
         System.out.println(MENU_ENTER_PIN);
         String inputPin = scanner.nextLine();
-        return CreditCard.getCardIfExist(inputCardNumber, inputPin);
+        return Main.creditCardDao.readCard(inputCardNumber, inputPin);
     }
 
     public static boolean isLoginSuccessful(CreditCard card){
