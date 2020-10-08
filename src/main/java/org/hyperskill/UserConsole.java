@@ -15,13 +15,25 @@ public class UserConsole {
     protected static final String MENU_ENTER_PIN = "Enter your PIN:";
     protected static final String MENU_WRONG_INPUT = "Wrong card number or PIN!";
     protected static final String MENU_LOGIN_SUCCESSFUL = "You have successfully logged in!";
-    protected static final String MENU_USER_ACCOUNT = "1. Balance\n2. Log out\n0. Exit";
+    protected static final String MENU_USER_ACCOUNT =   "1. Balance\n" +
+                                                        "2. Add income\n" +
+                                                        "3. Do transfer\n" +
+                                                        "4. Close account\n" +
+                                                        "5. Log out\n" +
+                                                        "0. Exit";
     protected static final String MENU_LOGOUT_EXIT = "You have successfully logged out!";
 
     protected static final String MENU_BALANCE = "Balance: %d";
     protected static final String MENU_CARD_CREATED = "Your card has been created";
     protected static final String MENU_CARD_NUMBER = "Your card number:";
     protected static final String MENU_PIN_NUMBER = "Your card PIN:";
+    protected static final String MENU_TRANSFER_NO_MONEY = "Not enough money!";
+    protected static final String MENU_TRANSFER_SAME_ACCOUNT = "You can't transfer money to the same account!";
+    protected static final String MENU_TRANSFER_LUHN_FAILED = "Probably you made mistake in the card number. Please try again!";
+    protected static final String MENU_TRANSFER_RECEIVER_VOID = "Such a card does not exist.";
+    protected static final String MENU_TRANSFER_INCOME_ADDED = "Income was added!";
+    protected static final String MENU_TRANSFER_SUCCESS = "Success!";
+    protected static final String MENU_ACCOUNT_CLOSED = "The account has been closed!";
 
     public static CreditCard createCreditCard(){
         System.out.println(MENU_CARD_CREATED);
