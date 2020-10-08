@@ -1,8 +1,6 @@
 package org.hyperskill;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -17,7 +15,6 @@ public class CreditCard {
     protected static Pattern CREDIT_CARD_NUMBER_FORMULA = Pattern.compile("^400000\\d{10}$");
     protected static Pattern PIN_NUMBER_FORMULA = Pattern.compile("^\\d{4}$");
 
-    public static final List<CreditCard> registeredCreditCards = new ArrayList<>();
     private final String creditCardNumber;
     private final String pin;
     private int balance;
@@ -55,8 +52,8 @@ public class CreditCard {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CreditCard that = (CreditCard) o;
-        return creditCardNumber.equals(that.creditCardNumber) &&
-                pin.equals(that.pin);
+        return Objects.equals(creditCardNumber, that.creditCardNumber) &&
+                Objects.equals(pin, that.pin);
     }
 
     @Override
@@ -86,17 +83,6 @@ public class CreditCard {
             return false;
         }
         return PIN_NUMBER_FORMULA.matcher(pinNumber).matches();
-    }
-
-    public static CreditCard getCardIfExist(String number, String pin){
-        if (registeredCreditCards.isEmpty()){
-            return NULL_CARD;
-        }
-        CreditCard searchedCard = new CreditCard(number, pin);
-        if (registeredCreditCards.contains(searchedCard)){
-            return registeredCreditCards.get(registeredCreditCards.indexOf(searchedCard));
-        }
-        return NULL_CARD;
     }
 
 
