@@ -17,6 +17,7 @@ public class CreditCardDao {
     protected static final String CREATE_CARD = "INSERT INTO credit_cards (number, pin) VALUES ('%s', '%s');";
     protected static final String READ_CARD = "SELECT * FROM credit_cards WHERE number = '%s' AND pin = '%s';";
     protected static final String READ_ALL_CARDS = "SELECT * FROM credit_cards;";
+    protected static final String UPDATE_CARD = "UPDATE credit_cards SET balance = %d WHERE number = '%s' AND pin = '%s';";
 
     protected static Connection getConnection() throws SQLException {
         String url = String.format("jdbc:sqlite:%s", BASE_NAME);
@@ -50,6 +51,21 @@ public class CreditCardDao {
             e.printStackTrace();
         }
         return CreditCard.NULL_CARD;
+    }
+
+    public boolean updateCard(CreditCard card){
+        try (Connection connection = getConnection()){
+            try (Statement statement = connection.createStatement()){
+                statement.executeUpdate(String.format(UPDATE_CARD, card.getBalance(), card.getCreditCardNumber(), card.getPin()));
+            } catch (SQLException e){
+                e.printStackTrace();
+                return false;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public Set<CreditCard> getAllCards(){

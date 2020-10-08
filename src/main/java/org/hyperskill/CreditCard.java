@@ -85,5 +85,13 @@ public class CreditCard {
         return PIN_NUMBER_FORMULA.matcher(pinNumber).matches();
     }
 
+    public boolean addIncome(int amount){
+        if (amount > 0){
+            balance += amount;
+            return true;
+        }
+        return false;
+    }
+
 
 }

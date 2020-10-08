@@ -22,14 +22,14 @@ public class AccountMenuOptionsTest {
     private static Stream<Arguments> getByValueArgumentsProvider(){
         return Stream.of(
                 Arguments.of(BALANCE, "1"),
-                Arguments.of(LOGOUT, "2"),
+                Arguments.of(ADD_INCOME, "2"),
                 Arguments.of(EXIT, "0")
         );
     }
 
     @DisplayName("should getByValue() given invalid values returns DEFAULT")
     @ParameterizedTest
-    @ValueSource(strings = {"3", "-3", "-9_000_000_000", "0000000000;", "3_000_000", "33"})
+    @ValueSource(strings = {"6", "-3", "-9_000_000_000", "0000000000;", "3_000_000", "33"})
     void getByValueInvalidArgumentsReturnDefault(String given){
         assertEquals(DEFAULT, AccountMenuOptions.getByValue(given));
     }
