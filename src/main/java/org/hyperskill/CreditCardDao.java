@@ -15,9 +15,10 @@ public class CreditCardDao {
     protected static final String CREATE_DATABASE = "CREATE TABLE IF NOT EXISTS credit_cards(" +
             "id INTEGER, number VARCHAR(16) NOT NULL UNIQUE, pin VARCHAR(4) NOT NULL, balance INTEGER DEFAULT 0);";
     protected static final String CREATE_CARD = "INSERT INTO credit_cards (number, pin) VALUES ('%s', '%s');";
+    protected static final String CHECK_CARD = "SELECT * FROM credit_cards WHERE number = '%s';";
     protected static final String READ_CARD = "SELECT * FROM credit_cards WHERE number = '%s' AND pin = '%s';";
     protected static final String READ_ALL_CARDS = "SELECT * FROM credit_cards;";
-    protected static final String UPDATE_CARD = "UPDATE credit_cards SET balance = %d WHERE number = '%s' AND pin = '%s';";
+    protected static final String UPDATE_CARD = "UPDATE credit_cards SET balance = %d WHERE number = '%s';";
 
     protected static Connection getConnection() throws SQLException {
         String url = String.format("jdbc:sqlite:%s", BASE_NAME);
@@ -53,10 +54,25 @@ public class CreditCardDao {
         return CreditCard.NULL_CARD;
     }
 
-    public boolean updateCard(CreditCard card){
+    public boolean checkCard(String number){
         try (Connection connection = getConnection()){
             try (Statement statement = connection.createStatement()){
-                statement.executeUpdate(String.format(UPDATE_CARD, card.getBalance(), card.getCreditCardNumber(), card.getPin()));
+                ResultSet resultSet = statement.executeQuery(String.format(CHECK_CARD, number));
+                if (!resultSet.next()){
+                    return false;
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateCard(String creditCardNumber, int amount){
+        try (Connection connection = getConnection()){
+            try (Statement statement = connection.createStatement()){
+                statement.executeUpdate(String.format(UPDATE_CARD, amount, creditCardNumber));
             } catch (SQLException e){
                 e.printStackTrace();
                 return false;
