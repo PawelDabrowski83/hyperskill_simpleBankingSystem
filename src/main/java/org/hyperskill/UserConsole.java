@@ -105,6 +105,7 @@ public class UserConsole {
     }
 
     protected static void checkBalance(CreditCard card){
+        card = Main.creditCardDao.readCard(card.getCreditCardNumber(), card.getPin());
         int currentBalance = card.getBalance();
         System.out.printf(MENU_BALANCE, currentBalance);
         System.out.println();
