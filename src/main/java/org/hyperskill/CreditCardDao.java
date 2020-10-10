@@ -6,9 +6,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 public class CreditCardDao {
     protected static final String BASE_NAME = "test-integration.db";
@@ -17,8 +14,8 @@ public class CreditCardDao {
     protected static final String CREATE_CARD = "INSERT INTO credit_cards (number, pin) VALUES ('%s', '%s');";
     protected static final String CHECK_CARD = "SELECT * FROM credit_cards WHERE number = '%s';";
     protected static final String READ_CARD = "SELECT * FROM credit_cards WHERE number = '%s' AND pin = '%s';";
-    protected static final String READ_ALL_CARDS = "SELECT * FROM credit_cards;";
     protected static final String UPDATE_CARD = "UPDATE credit_cards SET balance = %d WHERE number = '%s';";
+    protected static final String DELETE_CARD = "DELETE FROM credit_cards WHERE number = %s";
 
     protected static Connection getConnection() throws SQLException {
         String url = String.format("jdbc:sqlite:%s", BASE_NAME);
@@ -84,29 +81,19 @@ public class CreditCardDao {
         return true;
     }
 
-    public Set<CreditCard> getAllCards(){
-        Set<CreditCard> creditCards = new HashSet<>();
+    public boolean deleteCard(String creditCardNumber){
         try (Connection connection = getConnection()){
             try (Statement statement = connection.createStatement()){
-                ResultSet resultSet = statement.executeQuery(READ_ALL_CARDS);
-                while (resultSet.next()){
-                    String readCreditCardNumber = resultSet.getString("number");
-                    String readPin = resultSet.getString("pin");
-                    int readBalance = resultSet.getInt("balance");
-                    System.out.printf("%s %s %d", readCreditCardNumber, readPin, readBalance);
-                    System.out.println();
-                    CreditCard targetCard = new CreditCard(readCreditCardNumber, readPin, readBalance);
-                    creditCards.add(targetCard);
-                }
-                return creditCards;
+                statement.executeUpdate(String.format(DELETE_CARD, creditCardNumber));
             } catch (SQLException e){
                 e.printStackTrace();
+                return false;
             }
         } catch (SQLException e){
             e.printStackTrace();
-            return Collections.emptySet();
+            return false;
         }
-        return creditCards;
+        return true;
     }
 
     private boolean executeUpdate(String query) {

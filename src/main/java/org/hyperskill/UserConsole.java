@@ -6,6 +6,7 @@ import org.hyperskill.menu.MainMenuOptions;
 
 import java.util.Scanner;
 
+import static org.hyperskill.menu.AccountMenuOptions.CLOSE_ACCOUNT;
 import static org.hyperskill.menu.MainMenuOptions.EXIT;
 import static org.hyperskill.menu.MainMenuOptions.getByValue;
 
@@ -85,12 +86,13 @@ public class UserConsole {
             return;
         }
         String command = "";
-        while (!EXIT.getValue().equals(command)){
+        while (!EXIT.getValue().equals(command) && !CLOSE_ACCOUNT.getValue().equals(command)){
             AccountMenuOptions option = AccountMenuOptions.getByValue(command);
             switch (option){
                 case BALANCE -> checkBalance(currentCard);
                 case ADD_INCOME -> addIncome(scanner, currentCard);
                 case DO_TRANSFER -> doTransfer(scanner, currentCard);
+                case CLOSE_ACCOUNT -> closeCard(currentCard);
                 case LOGOUT -> logout(scanner);
 
             }
@@ -153,6 +155,11 @@ public class UserConsole {
                 Main.creditCardDao.updateCard(targetCard, amount);
     }
 
+    protected static void closeCard(CreditCard creditCard){
+        if(Main.creditCardDao.deleteCard(creditCard.getCreditCardNumber())){
+            System.out.println(MENU_ACCOUNT_CLOSED);
+        }
+    }
 
 }
 
