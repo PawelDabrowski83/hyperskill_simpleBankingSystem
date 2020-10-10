@@ -6,7 +6,6 @@ import org.hyperskill.menu.MainMenuOptions;
 
 import java.util.Scanner;
 
-import static org.hyperskill.menu.AccountMenuOptions.CLOSE_ACCOUNT;
 import static org.hyperskill.menu.MainMenuOptions.EXIT;
 import static org.hyperskill.menu.MainMenuOptions.getByValue;
 
@@ -86,13 +85,13 @@ public class UserConsole {
             return;
         }
         String command = "";
-        while (!EXIT.getValue().equals(command) && !CLOSE_ACCOUNT.getValue().equals(command)){
+        while (!EXIT.getValue().equals(command)){
             AccountMenuOptions option = AccountMenuOptions.getByValue(command);
             switch (option){
                 case BALANCE -> checkBalance(currentCard);
                 case ADD_INCOME -> addIncome(scanner, currentCard);
                 case DO_TRANSFER -> doTransfer(scanner, currentCard);
-                case CLOSE_ACCOUNT -> closeCard(currentCard);
+                case CLOSE_ACCOUNT -> closeCard(scanner, currentCard);
                 case LOGOUT -> logout(scanner);
 
             }
@@ -104,11 +103,12 @@ public class UserConsole {
 
     }
 
-    protected static void checkBalance(CreditCard card){
+    protected static int checkBalance(CreditCard card){
         card = Main.creditCardDao.readCard(card.getCreditCardNumber(), card.getPin());
         int currentBalance = card.getBalance();
         System.out.printf(MENU_BALANCE, currentBalance);
         System.out.println();
+        return currentBalance;
     }
 
     protected static void logout(Scanner scanner){
@@ -119,8 +119,7 @@ public class UserConsole {
     protected static void addIncome(Scanner scanner, CreditCard card){
         System.out.println(MENU_ADD_INCOME);
         int amount = scanner.nextInt();
-        if (card.addIncome(amount)){
-            Main.creditCardDao.updateCard(card.getCreditCardNumber(), card.getBalance());
+        if (Main.creditCardDao.updateCard(card.getCreditCardNumber(), amount)){
             System.out.println(MENU_TRANSFER_INCOME_ADDED);
         }
     }
@@ -142,7 +141,7 @@ public class UserConsole {
         }
         System.out.println(MENU_TRANSFER_HOW_MUCH);
         int amount = scanner.nextInt();
-        if (amount > card.getBalance() && amount > 0){
+        if (amount > checkBalance(card) && amount > 0){
             System.out.println(MENU_TRANSFER_NO_MONEY);
             return;
         }
@@ -156,9 +155,10 @@ public class UserConsole {
                 Main.creditCardDao.updateCard(targetCard, amount);
     }
 
-    protected static void closeCard(CreditCard creditCard){
+    protected static void closeCard(Scanner scanner, CreditCard creditCard){
         if(Main.creditCardDao.deleteCard(creditCard.getCreditCardNumber())){
             System.out.println(MENU_ACCOUNT_CLOSED);
+            logout(scanner);
         }
     }
 

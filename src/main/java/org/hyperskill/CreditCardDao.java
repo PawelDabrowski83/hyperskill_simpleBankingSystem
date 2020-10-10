@@ -14,7 +14,7 @@ public class CreditCardDao {
     protected static final String CREATE_CARD = "INSERT INTO credit_cards (number, pin) VALUES ('%s', '%s');";
     protected static final String CHECK_CARD = "SELECT * FROM credit_cards WHERE number = '%s';";
     protected static final String READ_CARD = "SELECT * FROM credit_cards WHERE number = '%s' AND pin = '%s';";
-    protected static final String UPDATE_CARD = "UPDATE credit_cards SET balance = %d WHERE number = '%s';";
+    protected static final String UPDATE_CARD = "UPDATE credit_cards SET balance = balance + %d WHERE number = '%s';";
     protected static final String DELETE_CARD = "DELETE FROM credit_cards WHERE number = %s";
 
     protected static Connection getConnection() throws SQLException {
