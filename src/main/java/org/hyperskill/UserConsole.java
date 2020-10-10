@@ -6,6 +6,7 @@ import org.hyperskill.menu.MainMenuOptions;
 
 import java.util.Scanner;
 
+import static org.hyperskill.menu.AccountMenuOptions.CLOSE_ACCOUNT;
 import static org.hyperskill.menu.MainMenuOptions.EXIT;
 import static org.hyperskill.menu.MainMenuOptions.getByValue;
 
@@ -27,6 +28,9 @@ public class UserConsole {
     protected static final String MENU_CARD_CREATED = "Your card has been created";
     protected static final String MENU_CARD_NUMBER = "Your card number:";
     protected static final String MENU_PIN_NUMBER = "Your card PIN:";
+    protected static final String MENU_TRANSFER =   "Transfer\n" +
+                                                    "Enter card number:";
+    protected static final String MENU_TRANSFER_HOW_MUCH = "Enter how much money you want to transfer:";
     protected static final String MENU_TRANSFER_NO_MONEY = "Not enough money!";
     protected static final String MENU_TRANSFER_SAME_ACCOUNT = "You can't transfer money to the same account!";
     protected static final String MENU_TRANSFER_LUHN_FAILED = "Probably you made mistake in the card number. Please try again!";
@@ -82,13 +86,17 @@ public class UserConsole {
             return;
         }
         String command = "";
-        while (!EXIT.getValue().equals(command)){
+        while (!EXIT.getValue().equals(command) && !CLOSE_ACCOUNT.getValue().equals(command)){
             AccountMenuOptions option = AccountMenuOptions.getByValue(command);
             switch (option){
                 case BALANCE -> checkBalance(currentCard);
-                case LOGOUT -> logout(scanner);
                 case ADD_INCOME -> addIncome(scanner, currentCard);
+                case DO_TRANSFER -> doTransfer(scanner, currentCard);
+                case CLOSE_ACCOUNT -> closeCard(currentCard);
+                case LOGOUT -> logout(scanner);
+
             }
+            System.out.println();
             System.out.println(MENU_USER_ACCOUNT);
             command = scanner.nextLine();
         }
@@ -97,6 +105,7 @@ public class UserConsole {
     }
 
     protected static void checkBalance(CreditCard card){
+        card = Main.creditCardDao.readCard(card.getCreditCardNumber(), card.getPin());
         int currentBalance = card.getBalance();
         System.out.printf(MENU_BALANCE, currentBalance);
         System.out.println();
@@ -111,8 +120,45 @@ public class UserConsole {
         System.out.println(MENU_ADD_INCOME);
         int amount = scanner.nextInt();
         if (card.addIncome(amount)){
-            Main.creditCardDao.updateCard(card);
+            Main.creditCardDao.updateCard(card.getCreditCardNumber(), card.getBalance());
             System.out.println(MENU_TRANSFER_INCOME_ADDED);
+        }
+    }
+
+    protected static void doTransfer(Scanner scanner, CreditCard card){
+        System.out.println(MENU_TRANSFER);
+        String inputCardNumber = scanner.nextLine();
+        if (!BankUtils.checkLuhnNumber(inputCardNumber)){
+            System.out.println(MENU_TRANSFER_LUHN_FAILED);
+            return;
+        }
+        if (!Main.creditCardDao.checkCard(inputCardNumber)){
+            System.out.println(MENU_TRANSFER_RECEIVER_VOID);
+            return;
+        }
+        if (card.getCreditCardNumber().equals(inputCardNumber)){
+            System.out.println(MENU_TRANSFER_SAME_ACCOUNT);
+            return;
+        }
+        System.out.println(MENU_TRANSFER_HOW_MUCH);
+        int amount = scanner.nextInt();
+        if (amount > card.getBalance() && amount > 0){
+            System.out.println(MENU_TRANSFER_NO_MONEY);
+            return;
+        }
+        if (transferMoney(card.getCreditCardNumber(), inputCardNumber, amount)){
+            System.out.println(MENU_TRANSFER_SUCCESS);
+        }
+    }
+
+    protected static boolean transferMoney(String sourceCard, String targetCard, int amount){
+        return Main.creditCardDao.updateCard(sourceCard, amount * -1) &&
+                Main.creditCardDao.updateCard(targetCard, amount);
+    }
+
+    protected static void closeCard(CreditCard creditCard){
+        if(Main.creditCardDao.deleteCard(creditCard.getCreditCardNumber())){
+            System.out.println(MENU_ACCOUNT_CLOSED);
         }
     }
 

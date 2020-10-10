@@ -86,11 +86,8 @@ public class CreditCard {
     }
 
     public boolean addIncome(int amount){
-        if (amount > 0){
             balance += amount;
-            return true;
-        }
-        return false;
+        return true;
     }
 
 
